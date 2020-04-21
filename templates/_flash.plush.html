@@ -1,0 +1,16 @@
+<div style="position: relative; height: 0; z-index: 1000;">
+  <div class="row">
+    <div class="col-md-12">
+      <%= for (k, messages) in flash { %>
+        <%= for (msg) in messages { %>
+          <div class="alert alert-<%= k %>" role="alert">
+            <%= msg %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+</div>

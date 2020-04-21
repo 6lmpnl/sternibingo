@@ -1,0 +1,2 @@
+add_column("users", "validation_code", "string", {})
+add_column("users", "validated", "bool", {})

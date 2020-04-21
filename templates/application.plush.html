@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Sternibingo</title>
+    <%= stylesheetTag("application.css") %>
+    <meta name="csrf-param" content="authenticity_token" />
+    <meta name="csrf-token" content="<%= authenticity_token %>" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="icon" href="<%= assetPath("images/favicon.svg") %>" size="any">
+    <link rel="icon" href="<%= assetPath("images/favicon.ico") %>" size="32x32">
+  </head>
+  <body>
+
+    <div class="container">
+      <%= partial("flash.html") %>
+    </div>
+    <%= if (useLayout) { %>
+      <header>
+        <div class="container">
+          <div class="row">
+            <div id="mainbtn" class="bttn">
+              <div class="logo">
+                <img src="<%= rootPath() %>assets/images/logo.svg" alt="">
+              </div>
+              <div class="titles">
+                <h1><%= "Home" %></h1>
+              </div>
+              <div class="container wndw">
+                  <div class="row">
+                    <div class="menuwndw">
+                      <% let path = current_route.Path%>
+                      <%= if (path != "/") { %>
+                      <a href="/">Home</a><br/>
+                      <% } %>
+                      <%= if (path != "/caps/") { %>
+                        <a href="/caps">Deckel</a><br/>
+                      <% } %>
+                      <%= if (path != "/fields/") { %>
+                        <a href="/fields">Felder</a><br/>
+                      <% } %>
+                      <%= if (path != "/groups/") { %>
+                        <a href="/groups">Gruppen</a><br/>
+                      <% } %>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div id="userbtn" class="bttn">
+              <img src="<%= rootPath() %>assets/images/user.svg">
+              <div id="usermenu" class="container wndw">
+                <div class="row">
+                  <div class="menuwndw">
+                    <h1><%= current_user.Email %></h1>
+                    <%= linkTo(authPath(), {data-method: "DELETE"}){ %>Sign Out<% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div id="content" class="container">
+    <% } %>
+      <%= yield %>
+    <%= if (useLayout) { %>
+    </div>
+    <footer>
+      <div class="container">
+
+      </div>
+    </footer>
+    <% } %>
+    <%= javascriptTag("application.js") %>
+  </body>
+</html>

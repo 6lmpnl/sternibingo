@@ -1,0 +1,14 @@
+<div class="auth-wrapper centercontainer">
+  <div class="sign-form">
+    <h1>Sign In</h1>
+
+    <%= form_for(user, {action: authPath()}) { %>
+      <%= f.InputTag("Email") %>
+      <%= f.InputTag("Password", {type: "password"}) %>
+      <button class="btn btn-success">Sign In!</button>
+    <% } %>
+
+    or <a href=<%= newUsersPath()%> class="btn btn-primary">Register</a>
+  </div>
+
+</div>

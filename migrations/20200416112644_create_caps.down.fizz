@@ -1,0 +1,3 @@
+
+drop_foreign_key("caps", "UserID", {"if_exists": true})
+drop_table("caps")

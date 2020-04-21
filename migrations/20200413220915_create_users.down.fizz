@@ -1,0 +1,2 @@
+drop_column("users", "validation_code")
+drop_column("users", "validated")

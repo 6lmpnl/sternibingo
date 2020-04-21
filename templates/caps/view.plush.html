@@ -1,0 +1,9 @@
+<%= partial("/caps/add_cap.plush.html") %>
+
+<div class="hline"></div>
+
+<div class="capcontainer">
+    <%= for (cap) in caps { %>
+        <div class="cap"><%= cap.Number %></div>
+    <% } %>
+</div>

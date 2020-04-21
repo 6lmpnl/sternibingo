@@ -1,0 +1,12 @@
+create_table("caps") {
+	t.Column("id", "uuid", {primary: true})
+	t.Timestamps()
+	t.Column("number", "int", {})
+	t.Column("userid", "uuid", {})
+}
+
+add_foreign_key("caps", "userid", {"users": ["id"]}, {
+    "on_delete": "CASCADE",
+    "on_update": "CASCADE",
+})
+

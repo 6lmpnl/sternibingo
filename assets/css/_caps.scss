@@ -1,0 +1,19 @@
+.capcontainer {
+    display: flex;
+    flex-wrap: wrap;
+
+    .cap {
+        width: 3em;
+        height: 3em;
+        background-image: url("/assets/images/deckel.svg");
+        background-size: contain;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 2em;
+        color: #ececec;
+
+        @include disable-selection;
+    }
+}

@@ -132,7 +132,7 @@ func (u *User) SendValidationEmail(tx *pop.Connection) error {
 
 	auth := smtp.PlainAuth("",
 		"ludwig@loebinger.de",
-		"<%qm{W4QH|vx|q(dTS]f29lsotu3{F[J+Ej9I",
+		""
 		"mail.loebinger.de");
 
 	c, err := smtp.Dial("mail.loebinger.de:587")

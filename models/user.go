@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"github.com/gobuffalo/envy"
 	"math/rand"
 	"net/smtp"
 	"strings"
@@ -129,41 +130,46 @@ func (u *User) ValidateEmail(tx *pop.Connection) error {
 func (u *User) SendValidationEmail(tx *pop.Connection) error {
 
 	u.ValidationCode = getNewValidationKey();
+	emailaddr := envy.Get("MAILER_ADDR", "")
+	emailpass := envy.Get("MAILER_PASSWD", "")
+	server := envy.Get("SMTP_SERVER", "")
+
 
 	auth := smtp.PlainAuth("",
-		"ludwig@loebinger.de",
-		""
-		"mail.loebinger.de");
+		emailaddr,
+		emailpass,
+		server)
 
-	c, err := smtp.Dial("mail.loebinger.de:587")
-	defer c.Close()
+	c, err := smtp.Dial(server + ":587")
 	if err != nil {
-		return err;
+		return errors.WithStack(err);
 	}
+	defer c.Close()
 
 	tlsconfig := &tls.Config {
 		InsecureSkipVerify: true,
-		ServerName: "mail.loebinger.de",
+		ServerName: server,
 	}
 
 	c.StartTLS(tlsconfig)
 
+
 	if err = c.Auth(auth); err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
-	if err = c.Mail("ludwig@loebinger.de"); err != nil {
-		return err
+	if err = c.Mail(emailaddr); err != nil {
+		return errors.WithStack(err)
 	}
 
 	if err = c.Rcpt(u.Email); err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	wc, err := c.Data()
 	defer wc.Close()
 	if err != nil {
-		return err
+		return errors.WithStack(err);
 	}
 
 	link := "http://localhost:3000/users/activate/" + u.ValidationCode
@@ -171,7 +177,7 @@ func (u *User) SendValidationEmail(tx *pop.Connection) error {
 
 	buf := bytes.NewBufferString("Subject: Sternibingo Registration\n"+
 		"To: You <" + u.Email + ">\n" +
-		"From: Ludwig Loebinger <ludwig@loebinger.de>\n" +
+		"From: Sternibingo <" + emailaddr + ">\n" +
 		"Content-Type: multipart/alternative;\n" +
 		" boundary=\"------------1F66319E1598A907A365D1B7\"\n" +
 		"Content-Language: en-US\n" +
@@ -204,7 +210,7 @@ func (u *User) SendValidationEmail(tx *pop.Connection) error {
 		"--------------1F66319E1598A907A365D1B7--")
 
 	if _, err = buf.WriteTo(wc); err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	return tx.Update(u)

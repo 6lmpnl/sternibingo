@@ -6,19 +6,20 @@
 </div>
 
 <div class="capcontainer">
+
     <%= for (field) in fields { %>
-        <table class=" table-bordered bingofield">
-            <%= for (row) in field.Rows() { %>
-                <tr>
-                    <%= for (cell) in row { %>
-                        <td>
-                            <div count="<%= counts[cell]%>">
-                                <%= cell %>
-                            </div>
-                        </td>
-                    <% } %>
-                  </tr>
-            <% } %>
+        <table class="bingofield">
+            <tbody>
+                <%= for (row) in field.Rows() { %>
+                    <tr>
+                        <%= for (cell) in row { %>
+                            <td count="<%= counts[cell]%>">
+                                    <%= cell %>
+                            </td>
+                        <% } %>
+                      </tr>
+                <% } %>
+            </tbody>
         </table>
     <% } %>
 </div>

@@ -97,6 +97,11 @@ func App() *buffalo.App {
 		fields := app.Group("/fields")
 		fields.GET("/", ShowFields)
 
+		//Routes for Groups
+		app.GET("/groups/", GroupsShow)
+		app.GET("/groups/new", GroupsNew)
+		app.POST("/groups/", CreateGroup)
+
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
 

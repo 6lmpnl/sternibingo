@@ -36,6 +36,20 @@ CREATE TABLE public.caps (
 ALTER TABLE public.caps OWNER TO postgres;
 
 --
+-- Name: fields; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.fields (
+    id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    field integer[] NOT NULL
+);
+
+
+ALTER TABLE public.fields OWNER TO postgres;
+
+--
 -- Name: schema_migration; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -69,6 +83,14 @@ ALTER TABLE public.users OWNER TO postgres;
 
 ALTER TABLE ONLY public.caps
     ADD CONSTRAINT caps_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fields fields_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fields
+    ADD CONSTRAINT fields_pkey PRIMARY KEY (id);
 
 
 --

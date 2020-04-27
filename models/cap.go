@@ -6,6 +6,7 @@ import (
 	"github.com/gobuffalo/validate/v3"
 	"github.com/gobuffalo/validate/v3/validators"
 	"github.com/gofrs/uuid"
+	"github.com/pkg/errors"
 	"time"
 )
 // Cap is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
@@ -30,6 +31,31 @@ type Caps []Cap
 func (cap *Cap) Create(tx *pop.Connection) (*validate.Errors, error) {
 	//nil, errors.New("error")
 	return tx.ValidateAndCreate(cap)
+}
+
+func GetCounts(tx *pop.Connection) (map[int]int, error) {
+	x := map[int]int{}
+
+	type Countmap struct{
+		Number int `db:"number"`
+		Count int `db:"count"`
+	}
+
+	type Countmaps []Countmap;
+
+	counts := Countmaps{};
+
+	q := tx.Q()
+	err := q.RawQuery("SELECT number, Count(Number) AS count FROM caps GROUP BY Number").All(&counts)
+	if err != nil {
+		return x, errors.WithStack(err)
+	}
+
+	for _, count := range counts {
+		x[count.Number] = count.Count
+	}
+
+	return x, nil;
 }
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.

@@ -93,6 +93,10 @@ func App() *buffalo.App {
 		caps.POST("/", CapCreate)
 		caps.DELETE("/{number}", CapRemove)
 
+		//Routes for Fields
+		fields := app.Group("/fields")
+		fields.GET("/", ShowFields)
+
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
 

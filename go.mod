@@ -19,6 +19,7 @@ require (
 	github.com/gobuffalo/suite/v3 v3.0.0
 	github.com/gobuffalo/validate v2.0.4+incompatible
 	github.com/gobuffalo/validate/v3 v3.1.0
+	github.com/gobuffalo/x v0.0.0-20190224155809-6bb134105960
 	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/markbates/grift v1.5.0
 	github.com/pkg/errors v0.9.1

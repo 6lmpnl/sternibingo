@@ -1,0 +1,6 @@
+- id: "field.created.success"
+  translation: "Field was successfully created."
+- id: "field.updated.success"
+  translation: "Field was successfully updated."
+- id: "field.destroyed.success"
+  translation: "Field was successfully destroyed."

@@ -1,0 +1,6 @@
+
+create_table("fields") {
+	t.Column("id", "uuid", {primary: true})
+	t.Timestamps()
+	t.Column("field", "integer[][]", {})
+}

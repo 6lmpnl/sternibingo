@@ -1,0 +1,8 @@
+<div class="py-2 mb-2">
+    <h3 class="d-inline-block">Einer Gruppe beitreten</h3>
+</div>
+
+<%= form_for(group, {action: groupsPath(), method: "POST"}) { %>
+    <%= f.InputTag("Name", {label: "Name", autofocus:""}) %>
+    <button class="btn btn-success">Gruppe Beitreten!</button>
+<% } %>

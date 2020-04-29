@@ -1,0 +1,22 @@
+create_table("groups") {
+	t.Column("id", "uuid", {primary: true})
+	t.Timestamps()
+	t.Column("name", "string", {})
+	t.Column("secret", "string", {})
+}
+
+add_index("groups", "name", {"unique": true, "name":"groupnameunique" })
+
+create_table("ingroup") {
+    t.Column("id", "uuid", {primary: true})
+    t.Column("user_id", "uuid", {})
+    t.Column("group_id", "uuid", {})
+    t.ForeignKey("user_id", {"users": ["id"]}, {
+        "on_delete": "CASCADE",
+        "on_update": "CASCADE"})
+    t.ForeignKey("group_id", {"groups": ["id"]}, {
+        "on_delete": "CASCADE",
+        "on_update": "CASCADE"})
+    t.Timestamps()
+    t.Column("is_admin", "bool", {})
+}

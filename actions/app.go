@@ -101,6 +101,7 @@ func App() *buffalo.App {
 		app.GET("/groups/", GroupsShow)
 		app.GET("/groups/new", GroupsNew)
 		app.POST("/groups/", CreateGroup)
+		app.GET("/groups/{groupname}", GroupShow)
 
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}

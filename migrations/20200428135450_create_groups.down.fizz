@@ -1,0 +1,4 @@
+drop_table("ingroup")
+
+drop_index("groups", "groupnameunique")
+drop_table("groups")

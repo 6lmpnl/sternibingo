@@ -1,0 +1,9 @@
+<div class="py-2 mb-2">
+    <h3 class="d-inline-block">Gruppe: <%= group.Name %></h3>
+</div>
+
+<ul class="list-group">
+    <%= for (ingroup) in group.InGroup { %>
+        <li class="list-group-item"><%= ingroup.User.Email %></li>
+    <% } %>
+</ul>

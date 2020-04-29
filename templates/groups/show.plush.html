@@ -1,1 +1,18 @@
-<h1>Groups#Show</h1>
+
+<%= partial("/groups/add_group.plush.html") %>
+
+<div class="hline"></div>
+
+<%= partial("/groups/join_group.plush.html") %>
+
+<div class="hline"></div>
+
+<div class="py-2 mb-2">
+    <h3 class="d-inline-block">Meine Gruppen</h3>
+</div>
+
+<ul class="list-group">
+    <%= for (group) in groups { %>
+        <a href=<%= join( "/groups/",  escape(group.Name) ) %> class="list-group-item"><%= group.Name %></a>
+    <% } %>
+</ul>

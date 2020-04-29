@@ -1,0 +1,12 @@
+<div class="py-2 mb-2">
+    <h3 class="d-inline-block">Gruppe Erstellen</h3>
+</div>
+
+<%= form_for(group, {action: groupsPath(), method: "POST"}) { %>
+    <%= f.InputTag("Name", {label: "Name", autofocus:""}) %>
+    <%= f.CheckboxTag("public", {label:"Ist diese Gruppe Privat?", id:"privatecheckbox"}) %>
+    <div id="hiddengroupfield" style="display: none">
+        <%= f.InputTag("Secret", {label: "Gruppenkennwort", unchecked: true}) %>
+    </div>
+    <button class="btn btn-success">Gruppe Erstellen!</button>
+<% } %>

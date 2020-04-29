@@ -18,7 +18,7 @@ func GroupsShow(c buffalo.Context) error {
 	current_user := c.Value("current_user").(*models.User)
 
 	tx := c.Value("tx").(*pop.Connection)
-	err := tx.Eager().Where("id IN (SELECT group_id FROM ingroup i WHERE user_id = ?)", current_user.ID).All(groups);
+	err := tx.Where("id IN (SELECT group_id FROM ingroup i WHERE user_id = ?)", current_user.ID).All(groups);
 	if (err != nil) {
 		return errors.WithStack(err);
 	}

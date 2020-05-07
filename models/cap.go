@@ -9,14 +9,15 @@ import (
 	"github.com/pkg/errors"
 	"time"
 )
+
 // Cap is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type Cap struct {
-    ID 			uuid.UUID 	`json:"id" db:"id"`
-    CreatedAt 	time.Time 	`json:"created_at" db:"created_at"`
-    UpdatedAt 	time.Time 	`json:"updated_at" db:"updated_at"`
-    Number		int			`json:"number" db:"number" form:"Number"`
-    BelongsTo	*User		`json:"belongs_to,omitempty" belongs_to:"user"`
-	BelongsToID uuid.UUID	`json:"-" db:"userid"`
+	ID          uuid.UUID `json:"id" db:"id"`
+	CreatedAt   time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
+	Number      int       `json:"number" db:"number" form:"Number"`
+	BelongsTo   *User     `json:"belongs_to,omitempty" belongs_to:"user"`
+	BelongsToID uuid.UUID `json:"-" db:"userid"`
 }
 
 // String is not required by pop and may be deleted
@@ -36,14 +37,14 @@ func (cap *Cap) Create(tx *pop.Connection) (*validate.Errors, error) {
 func GetCounts(tx *pop.Connection) (map[int]int, error) {
 	x := map[int]int{}
 
-	type Countmap struct{
+	type Countmap struct {
 		Number int `db:"number"`
-		Count int `db:"count"`
+		Count  int `db:"count"`
 	}
 
-	type Countmaps []Countmap;
+	type Countmaps []Countmap
 
-	counts := Countmaps{};
+	counts := Countmaps{}
 
 	q := tx.Q()
 	err := q.RawQuery("SELECT number, Count(Number) AS count FROM caps GROUP BY Number").All(&counts)
@@ -55,7 +56,7 @@ func GetCounts(tx *pop.Connection) (map[int]int, error) {
 		x[count.Number] = count.Count
 	}
 
-	return x, nil;
+	return x, nil
 }
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
@@ -63,21 +64,21 @@ func GetCounts(tx *pop.Connection) (map[int]int, error) {
 func (c *Cap) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	var err error
 	return validate.Validate(
-			&validators.IntIsPresent{
-				Name:    "number is present",
-				Field:  c.Number,
-			},
-			&validators.IntIsGreaterThan{
-				Name:     "geq 0",
-				Field:    c.Number,
-				Compared: -1,
-			},
-			&validators.IntIsLessThan{
-				Name:     "leq 100",
-				Field:    c.Number,
-				Compared: 100,
-			},
-		), err
+		&validators.IntIsPresent{
+			Name:  "number is present",
+			Field: c.Number,
+		},
+		&validators.IntIsGreaterThan{
+			Name:     "geq 0",
+			Field:    c.Number,
+			Compared: -1,
+		},
+		&validators.IntIsLessThan{
+			Name:     "leq 100",
+			Field:    c.Number,
+			Compared: 100,
+		},
+	), err
 }
 
 // ValidateCreate gets run every time you call "pop.ValidateAndCreate" method.

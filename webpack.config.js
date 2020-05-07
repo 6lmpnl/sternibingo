@@ -6,7 +6,6 @@ const ManifestPlugin = require("webpack-manifest-plugin");
 const CleanObsoleteChunks = require("webpack-clean-obsolete-chunks");
 const TerserPlugin = require("terser-webpack-plugin");
 const LiveReloadPlugin = require("webpack-livereload-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const configurator = {
   entries: function(){

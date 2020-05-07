@@ -50,7 +50,6 @@ func App() *buffalo.App {
 		// Remove to disable this.
 		app.Use(csrf.New)
 
-
 		// Wraps each request in a transaction.
 		//  c.Value("tx").(*pop.Connection)
 		// Remove to disable this.
@@ -133,7 +132,7 @@ func forceSSL() buffalo.MiddlewareFunc {
 	})
 }
 
-func useLayout (next buffalo.Handler) buffalo.Handler {
+func useLayout(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		c.Value("route")
 		c.Set("useLayout", true)

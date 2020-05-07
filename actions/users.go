@@ -63,7 +63,6 @@ func UsersActivate(c buffalo.Context) error {
 		u[x].ValidateEmail(tx)
 	}
 
-
 	c.Flash().Add("success", "Account Activated!")
 	return c.Redirect(301, "/auth/new")
 }

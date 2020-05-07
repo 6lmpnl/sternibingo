@@ -11,24 +11,24 @@ import (
 
 // Group is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type Group struct {
-    ID uuid.UUID `json:"id" db:"id"`
-    CreatedAt time.Time `json:"created_at" db:"created_at"`
-    UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-    Name string `json:"name" db:"name"`
-    Secret string `json:"secret" db:"secret"`
+	ID        uuid.UUID `json:"id" db:"id"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+	Name      string    `json:"name" db:"name"`
+	Secret    string    `json:"secret" db:"secret"`
 
-    InGroup []InGroup `json:"users" has_many:"ingroup"`
+	InGroup []InGroup `json:"users" has_many:"ingroup"`
 }
 
 type InGroup struct {
-	ID uuid.UUID `json:"group_id" db:"id"`
-	GroupID uuid.UUID `json:"group_id" db:"group_id"`
-	UserID uuid.UUID `json:"user_id" db:"user_id"`
+	ID        uuid.UUID `json:"group_id" db:"id"`
+	GroupID   uuid.UUID `json:"group_id" db:"group_id"`
+	UserID    uuid.UUID `json:"user_id" db:"user_id"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	IsAdmin	bool `json:"is_admin" db:"is_admin"`
+	IsAdmin   bool      `json:"is_admin" db:"is_admin"`
 
-	User *User `json:"user,omitempty" belongs_to:"users"`
+	User  *User  `json:"user,omitempty" belongs_to:"users"`
 	Group *Group `json:"user,omitempty" belongs_to:"groups"`
 }
 
@@ -61,15 +61,15 @@ func (g Groups) String() string {
 }
 
 func (g *Group) Create(tx *pop.Connection) (*validate.Errors, error) {
-	verrs, err := tx.Eager().ValidateAndCreate(g);
+	verrs, err := tx.Eager().ValidateAndCreate(g)
 	if err != nil {
 		return verrs, errors.WithStack(err)
 	}
 	if verrs.HasAny() {
-		return verrs, err;
+		return verrs, err
 	}
 
-	return verrs, err;
+	return verrs, err
 }
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.

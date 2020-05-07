@@ -2,19 +2,20 @@ package models
 
 import (
 	"encoding/json"
-	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/pop/slices"
-	"github.com/gobuffalo/validate"
-	"github.com/gobuffalo/validate/validators"
+	"github.com/gobuffalo/pop/v5"
+	"github.com/gobuffalo/validate/v3"
+	"github.com/gobuffalo/validate/v3/validators"
 	"github.com/gofrs/uuid"
 	"time"
 )
+
 // Field is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type Field struct {
-    ID uuid.UUID `json:"id" db:"id"`
-    CreatedAt time.Time `json:"created_at" db:"created_at"`
-    UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-    Field slices.Int `json:"field" db:"field"`
+	ID        uuid.UUID  `json:"id" db:"id"`
+	CreatedAt time.Time  `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at" db:"updated_at"`
+	Field     slices.Int `json:"field" db:"field"`
 }
 
 // String is not required by pop and may be deleted
@@ -24,7 +25,7 @@ func (f Field) String() string {
 }
 
 func (f Field) Rows() [][]int {
-	return [][]int {f.Field[0:5],
+	return [][]int{f.Field[0:5],
 		f.Field[5:10],
 		f.Field[10:15],
 		f.Field[15:20],
@@ -33,7 +34,6 @@ func (f Field) Rows() [][]int {
 
 // Fields is not required by pop and may be deleted
 type Fields []Field
-
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
 // This method is not required and may be deleted.

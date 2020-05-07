@@ -18,9 +18,9 @@ func GroupsShow(c buffalo.Context) error {
 	current_user := c.Value("current_user").(*models.User)
 
 	tx := c.Value("tx").(*pop.Connection)
-	err := tx.Where("id IN (SELECT group_id FROM ingroup i WHERE user_id = ?)", current_user.ID).All(groups);
-	if (err != nil) {
-		return errors.WithStack(err);
+	err := tx.Where("id IN (SELECT group_id FROM ingroup i WHERE user_id = ?)", current_user.ID).All(groups)
+	if err != nil {
+		return errors.WithStack(err)
 	}
 
 	c.Set("group", group)
@@ -38,7 +38,7 @@ func GroupShow(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
 	err := tx.Eager("InGroup.User").Where("name = ?", groupname).First(group)
 	if err != nil {
-		errors.WithStack(err);
+		errors.WithStack(err)
 	}
 
 	c.Set("group", group)
@@ -73,7 +73,7 @@ func CreateGroup(c buffalo.Context) error {
 		c.Set("verrs", verrs)
 		return c.Redirect(302, "/groups/new")
 	}
-	c.Logger().Debug(group);
+	c.Logger().Debug(group)
 
-	return c.Redirect(302, "/groups/");
+	return c.Redirect(302, "/groups/")
 }

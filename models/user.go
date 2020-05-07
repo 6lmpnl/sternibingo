@@ -20,18 +20,18 @@ import (
 
 //User is a generated model from buffalo-auth, it serves as the base for username/password authentication.
 type User struct {
-	ID           	uuid.UUID 	`json:"id" db:"id"`
-	CreatedAt    	time.Time 	`json:"created_at" db:"created_at"`
-	UpdatedAt    	time.Time 	`json:"updated_at" db:"updated_at"`
-	Email        	string    	`json:"email" db:"email"`
-	PasswordHash 	string    	`json:"password_hash" db:"password_hash"`
-	ValidationCode	string    	`json:"-" db:"validation_code"`
-	Validated    	bool      	`json:"-" db:"validated"`
+	ID             uuid.UUID `json:"id" db:"id"`
+	CreatedAt      time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt      time.Time `json:"updated_at" db:"updated_at"`
+	Email          string    `json:"email" db:"email"`
+	PasswordHash   string    `json:"password_hash" db:"password_hash"`
+	ValidationCode string    `json:"-" db:"validation_code"`
+	Validated      bool      `json:"-" db:"validated"`
 
 	Password             string `json:"-" db:"-"`
 	PasswordConfirmation string `json:"-" db:"-"`
 
-	Caps 			[]Cap 		`json:"caps" has_many:"caps"`
+	Caps []Cap `json:"caps" has_many:"caps"`
 }
 
 // Create wraps up the pattern of encrypting the password and
@@ -106,7 +106,7 @@ func (u *User) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.NewErrors(), nil
 }
 
-func getNewValidationKey () string {
+func getNewValidationKey() string {
 	// generate random validation key
 	const charset = "abcdefghijklmnopqrstuvwxyz" +
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
@@ -120,7 +120,7 @@ func getNewValidationKey () string {
 }
 
 func (u *User) ValidateEmail(tx *pop.Connection) error {
-	u.Validated = true;
+	u.Validated = true
 	u.ValidationCode = ""
 
 	return tx.Update(u)
@@ -129,11 +129,10 @@ func (u *User) ValidateEmail(tx *pop.Connection) error {
 // Sends validation email
 func (u *User) SendValidationEmail(tx *pop.Connection) error {
 
-	u.ValidationCode = getNewValidationKey();
+	u.ValidationCode = getNewValidationKey()
 	emailaddr := envy.Get("MAILER_ADDR", "")
 	emailpass := envy.Get("MAILER_PASSWD", "")
 	server := envy.Get("SMTP_SERVER", "")
-
 
 	auth := smtp.PlainAuth("",
 		emailaddr,
@@ -142,17 +141,16 @@ func (u *User) SendValidationEmail(tx *pop.Connection) error {
 
 	c, err := smtp.Dial(server + ":587")
 	if err != nil {
-		return errors.WithStack(err);
+		return errors.WithStack(err)
 	}
 	defer c.Close()
 
-	tlsconfig := &tls.Config {
+	tlsconfig := &tls.Config{
 		InsecureSkipVerify: true,
-		ServerName: server,
+		ServerName:         server,
 	}
 
 	c.StartTLS(tlsconfig)
-
 
 	if err = c.Auth(auth); err != nil {
 		return errors.WithStack(err)
@@ -169,13 +167,13 @@ func (u *User) SendValidationEmail(tx *pop.Connection) error {
 	wc, err := c.Data()
 	defer wc.Close()
 	if err != nil {
-		return errors.WithStack(err);
+		return errors.WithStack(err)
 	}
 
 	link := "http://localhost:3000/users/activate/" + u.ValidationCode
 	username := strings.Split(u.Email, "@")[0]
 
-	buf := bytes.NewBufferString("Subject: Sternibingo Registration\n"+
+	buf := bytes.NewBufferString("Subject: Sternibingo Registration\n" +
 		"To: You <" + u.Email + ">\n" +
 		"From: Sternibingo <" + emailaddr + ">\n" +
 		"Content-Type: multipart/alternative;\n" +
@@ -203,7 +201,7 @@ func (u *User) SendValidationEmail(tx *pop.Connection) error {
 		"=\"80%\" valign=\"middle\" height=\"80%\" bgcolor=\"#000000\" align=\"center\"><p><font face=\"Source Code P" +
 		"ro\" color=\"#00ff15\"><b>Hello " + username + ",</b></font></p><p><font face=\"Source Code Pro\" color=\"#00ff15" +
 		"\">You registered for Social Sternibingo. Here is your activation link: </font> </p> <font face=\"Source Cod" +
-		"e Pro\" color=\"#00ff15\"><font color=\"#00ffbb\"><a href=\"" + link + "\" moz-do-not-send=\"true\">" + link  +
+		"e Pro\" color=\"#00ff15\"><font color=\"#00ffbb\"><a href=\"" + link + "\" moz-do-not-send=\"true\">" + link +
 		"</a></font><br></font> <font face=\"Source Code Pro\" color=\"#00ff15\"><br></font> </td><td><br></td></tr><" +
 		"tr><td><br></td><td><br></td><td><br></td></tr></tbody></table></body></html>" +
 		"\n" +

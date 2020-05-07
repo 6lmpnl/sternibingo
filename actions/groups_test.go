@@ -7,4 +7,3 @@ func (as *ActionSuite) Test_Groups_Show() {
 func (as *ActionSuite) Test_Groups_New() {
 	as.Fail("Not Implemented!")
 }
-

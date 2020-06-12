@@ -4,6 +4,10 @@
 
 <div class="capcontainer">
     <%= for (cap) in caps { %>
-        <div class="cap"><%= cap.Number %></div>
+        <div class="cap">
+            <a data-method="DELETE" href="caps/<%= cap.ID %>" class="remove">
+            </a>
+            <%= cap.Number %>
+        </div>
     <% } %>
 </div>

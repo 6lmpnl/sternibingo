@@ -26,7 +26,8 @@ func ShowFields(c buffalo.Context) error {
 		return err
 	}
 
-	counts, err := models.GetCounts(tx)
+	u := c.Value("current_user").(*models.User)
+	counts, err := models.GetCountsForUser(tx, u)
 	if err != nil {
 		return errors.WithStack(err)
 	}

@@ -90,7 +90,7 @@ func App() *buffalo.App {
 		caps := app.Group("/caps")
 		caps.GET("/", CapsView)
 		caps.POST("/", CapCreate)
-		caps.DELETE("/{number}", CapRemove)
+		caps.DELETE("/{capid}", DestroyCap)
 
 		//Routes for Fields
 		fields := app.Group("/fields")

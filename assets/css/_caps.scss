@@ -13,7 +13,41 @@
         font-weight: bold;
         font-size: 2em;
         color: #ececec;
+        position:relative;
+
+        transition: transform 0.05s linear 0.05s;
+
+        & .remove {
+            width: 1em;
+            height: 1em;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-image: url("/assets/images/remove.svg");
+            background-size: contain;
+            @media(hover: hover) {
+                opacity: 0;
+            }
+            transition: opacity 0.05s linear 0s;
+            transition: transform 0.1s;
+
+            &:hover {
+                transform: scale(0.9);
+            }
+        }
 
         @include disable-selection;
+
+        @media(hover: hover) {
+            &:hover {
+                        transform:scale(0.9);
+                        transition: transform 0.05s linear 0s;
+
+                        & .remove {
+                            opacity: 1;
+                            transition: opacity 0.05s linear 0.05s;
+                        }
+                    }
+        }
     }
 }

@@ -59,6 +59,31 @@ func GetCounts(tx *pop.Connection) (map[int]int, error) {
 	return x, nil
 }
 
+func GetCountsForUser(tx *pop.Connection, u *User) (map[int]int, error) {
+	x := map[int]int{}
+
+	type Countmap struct {
+		Number int `db:"number"`
+		Count  int `db:"count"`
+	}
+
+	type Countmaps []Countmap
+
+	counts := Countmaps{}
+
+	q := tx.Q()
+	err := q.RawQuery("SELECT number, Count(Number) AS count FROM caps WHERE userid = ? GROUP BY Number", u.ID).All(&counts)
+	if err != nil {
+		return x, errors.WithStack(err)
+	}
+
+	for _, count := range counts {
+		x[count.Number] = count.Count
+	}
+
+	return x, nil
+}
+
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
 // This method is not required and may be deleted.
 func (c *Cap) Validate(tx *pop.Connection) (*validate.Errors, error) {

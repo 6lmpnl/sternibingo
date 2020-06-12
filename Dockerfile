@@ -1,6 +1,6 @@
 # This is a multi-stage Dockerfile and requires >= Docker 17.05
 # https://docs.docker.com/engine/userguide/eng-image/multistage-build/
-FROM gobuffalo/buffalo:v0.16.1 as builder
+FROM gobuffalo/buffalo:v0.16.10 as builder
 
 RUN mkdir -p $GOPATH/src/github.com/6lmpnl/sternibingo
 WORKDIR $GOPATH/src/github.com/6lmpnl/sternibingo
@@ -23,7 +23,7 @@ WORKDIR /bin/
 COPY --from=builder /bin/app .
 
 # Uncomment to run the binary in "production" mode:
-# ENV GO_ENV=production
+ENV GO_ENV=production
 
 # Bind the app to 0.0.0.0 so it can be seen from outside the container
 ENV ADDR=0.0.0.0
